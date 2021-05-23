@@ -12,9 +12,9 @@ import com.aplication.common.libs.test_base;
 import com.application.gmail.pages.home_page;
 
 
-public class gmail_login extends test_base {
+public class test_gmail_login extends test_base {
 	
-	public gmail_login() throws IOException {
+	public test_gmail_login() throws IOException {
 		// TODO Auto-generated constructor stub
 		workbookPath = "./resources/" + common_utilities.get_property_value("./config/application.properties", "environment") + "/Testdata/testdata.xls";
 		datasheetName = "Login";
@@ -32,12 +32,6 @@ public class gmail_login extends test_base {
 		boolean result = home_page.verify_signin_page_opened();
 		assertEquals(result, true);
 		home_page.enter_email1(data.get("Email"));
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		
 		

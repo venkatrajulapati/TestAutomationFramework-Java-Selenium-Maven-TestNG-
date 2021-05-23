@@ -61,7 +61,7 @@
        <!--  <priority value ="error" />  -->
         <appender-ref ref="console" />
         <appender-ref ref="fileAppender" />
-       <appender-ref ref="htmlAppender" />
+       <!--  <appender-ref ref="htmlAppender" /> -->
        
     </root>
     

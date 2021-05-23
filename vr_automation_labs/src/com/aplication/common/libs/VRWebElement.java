@@ -12,6 +12,7 @@ import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 
 public class VRWebElement extends test_base implements BaseElement {
 	
@@ -187,6 +188,15 @@ public class VRWebElement extends test_base implements BaseElement {
 		System.out.println("scroll");
 	}
 	
+	
+	public void scrollToElement() {
+		// TODO Auto-generated method stub
+		JavascriptExecutor js = (JavascriptExecutor)driver;
+		js.executeScript("arguments[0].scrollIntoView(true);", elem);
+		
+	}
+	
+	@Override
 	public void scrollAndDoubleClick() {
 		// TODO Auto-generated method stub
 		JavascriptExecutor js = (JavascriptExecutor)driver;
@@ -195,5 +205,19 @@ public class VRWebElement extends test_base implements BaseElement {
 		System.out.println("scroll");
 	}
 	
+	public void sel_dropdown_item_by_visible_text(String item) {
+		// TODO Auto-generated method stub
+		Select dropdown = new Select(elem);
+		dropdown.selectByVisibleText(item);
+	}
+	
+	public void sel_dropdown_item_by_value(String item) {
+		// TODO Auto-generated method stub
+		Select dropdown = new Select(elem);
+		dropdown.selectByValue(item);
+	}
+
+	
+
 
 }

@@ -8,5 +8,6 @@ public interface BaseElement extends WebElement {
 	public void mouseHover();
 	public void mouseHoverAndClick();
 	public void scrollAndClick();
+	public void scrollAndDoubleClick();
 
 }

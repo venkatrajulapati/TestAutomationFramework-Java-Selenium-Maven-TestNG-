@@ -1,6 +1,6 @@
-package com.aplication.web.libs;
+package com.application.web.libs;
 
-import com.aplication.common.libs.StringUtils;
+import com.application.common.libs.StringUtils;
 
 public class ui_utils extends test_base {
 	

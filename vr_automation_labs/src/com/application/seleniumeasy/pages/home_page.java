@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import org.testng.ITestContext;
 
-import com.aplication.common.libs.*;
-import com.aplication.web.libs.VRWebElement;
-import com.aplication.web.libs.ui_utils;
+import com.application.common.libs.*;
+import com.application.web.libs.VRWebElement;
+import com.application.web.libs.ui_utils;
 
 public class home_page extends VRWebElement{
 

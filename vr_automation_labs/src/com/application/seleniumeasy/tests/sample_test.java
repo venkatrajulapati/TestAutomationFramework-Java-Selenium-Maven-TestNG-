@@ -7,9 +7,9 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.aplication.common.libs.*;
-import com.aplication.web.libs.test_base;
+import com.application.common.libs.*;
 import com.application.seleniumeasy.pages.home_page;
+import com.application.web.libs.test_base;
 
 
 public class sample_test extends test_base {

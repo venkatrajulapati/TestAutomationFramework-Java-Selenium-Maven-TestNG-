@@ -2,12 +2,11 @@ package com.application.seleniumeasy.pages;
 
 import java.io.IOException;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.testng.ITestContext;
 
-import com.aplication.common.libs.VRWebElement;
-import com.aplication.common.libs.common_utilities;
-import com.aplication.common.libs.ui_utils;
+import com.aplication.common.libs.*;
+import com.aplication.web.libs.VRWebElement;
+import com.aplication.web.libs.ui_utils;
 
 public class home_page extends VRWebElement{
 
@@ -28,6 +27,7 @@ public class home_page extends VRWebElement{
 		String env = common_utilities.get_property_value("./config/application.properties", "environment");
 		String url = common_utilities.get_property_value("./resources/" + env + "/env.properties", "url");
 		driver.get(url);
+		captureScreenShot();
 		log.info("Application Launched Successfully.");
 	}
 	
@@ -39,16 +39,19 @@ public class home_page extends VRWebElement{
 		}else {
 			log.error("failed to load Selenium easy page");
 		}
+		captureScreenShot();
 		return result;
 	}
 	
 	public void selectMenu(String menuName) {
 		ui_utils.click_element(get_menu_item_link(menuName), menuName);
+		captureScreenShot();
 	}
 	
 	public void clickNoThanks() {
 		if(get_Nothanks_button().verifyPresent()) {
 			ui_utils.click_element(get_Nothanks_button(), "No Thanks");
+			captureScreenShot();
 		}
 		
 	}

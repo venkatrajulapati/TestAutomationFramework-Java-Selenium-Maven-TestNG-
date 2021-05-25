@@ -7,8 +7,8 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.aplication.common.libs.common_utilities;
-import com.aplication.common.libs.test_base;
+import com.aplication.common.libs.*;
+import com.aplication.web.libs.test_base;
 import com.application.seleniumeasy.pages.home_page;
 
 

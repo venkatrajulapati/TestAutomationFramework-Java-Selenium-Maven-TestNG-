@@ -1,8 +1,11 @@
-package com.aplication.common.libs;
+package com.aplication.web.libs;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,16 +15,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
+
+import com.aplication.common.libs.Excelutils;
+import com.aplication.common.libs.common_utilities;
+
 public class test_base {
 	
 	public static WebDriver driver;
@@ -29,9 +39,10 @@ public class test_base {
 	public  static String datasheetName="";
 	public  static String keyName="";
 	public static Logger log;
-	
+	public static String tcName;
 	@BeforeMethod
 	public void intitializeConfiguration(Method m) throws IOException {
+		tcName = m.getName();
 		log = Logger.getLogger(m.getName());
 		log.info("Initializing Configuration ..........");
 		String browser = common_utilities.get_property_value("./config/application.properties", "browser");
@@ -116,6 +127,22 @@ public class test_base {
 		};
 	}
 	
+	public static void captureScreenShot() {
+		LocalDateTime dtObj = LocalDateTime.now();
+		DateTimeFormatter dtFormat = DateTimeFormatter.ofPattern("ddMMyyyyHHmmss"); 
+		String currDate = dtObj.format(dtFormat);
+		TakesScreenshot scrnShot = (TakesScreenshot) driver;
+		File scrShot= scrnShot.getScreenshotAs(OutputType.FILE);
+		File destFile = new File("./img/" + tcName + "_" + currDate + ".png");
+		try {
+			FileUtils.copyFile(scrShot, destFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	@AfterMethod
 	public void cleanup() {
 		driver.quit();
@@ -124,5 +151,4 @@ public class test_base {
 
 	
 	
-
 }

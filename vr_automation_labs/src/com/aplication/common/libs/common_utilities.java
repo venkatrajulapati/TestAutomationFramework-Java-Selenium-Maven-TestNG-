@@ -15,10 +15,4 @@ public class common_utilities {
 		return prop.getProperty(propery_name).toString();
 	}
 	
-	/*@Test
-	public void get_prop_value() throws IOException {
-		String val = get_property_value("./config/application.properties", "browser");
-		System.out.println(val);
-	}*/
-
 }

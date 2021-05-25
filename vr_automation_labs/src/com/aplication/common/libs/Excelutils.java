@@ -76,21 +76,6 @@ public class Excelutils {
 			}catch(Exception e) {
 				continue;
 			}
-			/*cellCount=r.getLastCellNum();
-			for(int j=0;j<cellCount;j++) {
-				try {
-					Cell c = r.getCell(j);
-					celltext=c.getStringCellValue();
-					if(StringUtils.equals(celltext.toLowerCase().trim(), keyName.trim().toLowerCase())) {
-						reqRow=i;
-						found=true;
-						break;
-					}
-				}catch(Exception e) {
-					continue;
-				}
-				
-			}*/
 			if(found) {
 				break;
 			}
@@ -129,21 +114,7 @@ public class Excelutils {
 			}catch(Exception e) {
 				continue;
 			}
-			/*cellCount=r.getLastCellNum();
-			for(int j=0;j<cellCount;j++) {
-				try {
-					Cell c = r.getCell(j);
-					celltext=c.getStringCellValue();
-					if(StringUtils.equals(celltext.toLowerCase().trim(), keyName.trim().toLowerCase())) {
-						reqCell=j;
-						found=true;
-						break;
-					}
-				}catch(Exception e) {
-					continue;
-				}
-				
-			}*/
+			
 			if(found) {
 				break;
 			}

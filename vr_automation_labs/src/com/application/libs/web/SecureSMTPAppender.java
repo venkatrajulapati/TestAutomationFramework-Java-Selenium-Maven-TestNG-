@@ -1,4 +1,4 @@
-package com.application.web.libs;
+package com.application.libs.web;
 
 import java.util.Date;
 import java.util.Properties;

@@ -1,11 +1,11 @@
-package com.application.web.libs;
+package com.application.libs.web;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -26,11 +25,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
-
-import com.application.common.libs.Excelutils;
-import com.application.common.libs.common_utilities;
+import com.application.libs.common.Excelutils;
+import com.application.libs.common.Reporter;
+import com.application.libs.common.common_utilities;
+import com.application.libs.common.dateUtils;
 
 public class test_base {
 	
@@ -40,11 +41,45 @@ public class test_base {
 	public  static String keyName="";
 	public static Logger log;
 	public static String tcName;
+	public static String repFolder="";
+	public static String screenShotFolder="";
+	public static String reportFilePath= "";
+	public static String confilePropertiesFile="";
+	public static String todaysDt1="";
+	public static String todaysDt2="";
+	public static FileWriter fwt;
+	public static int scren_cnt=1;
+	
+	@BeforeClass
+	public void initiallizeGlobalVariables() {
+		LocalDateTime dt = dateUtils.getDate(0);//LocalDateTime.now();
+		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy-HHmmss");
+		//DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		todaysDt1 = dateUtils.getFormattedDate(dt, "dd-MM-yyyy-HHmmss");//dt.format(formatter);
+		todaysDt2 = dateUtils.getFormattedDate(dt, "dd-MM-yyyy");//dt.format(formatter1);
+		screenShotFolder = "./results/screenshots/" + todaysDt1;
+		repFolder = "./results/reports/" + todaysDt2;
+	}
 	@BeforeMethod
 	public void intitializeConfiguration(Method m) throws IOException {
-		tcName = m.getName();
 		log = Logger.getLogger(m.getName());
 		log.info("Initializing Configuration ..........");
+		tcName = m.getName();
+		LocalDateTime dt = dateUtils.getDate(0);
+		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyyHHmmss");
+		String dt1 = dateUtils.getFormattedDate(dt, "ddMMyyyyHHmmss");//dt.format(formatter);
+		File f = new File(repFolder);
+		if(!f.exists()) {
+			f.mkdir();
+		}
+		//f.mkdir();
+		File f1 = new File(screenShotFolder);
+		if(!f1.exists()) {
+			f1.mkdir();
+		}
+		reportFilePath = repFolder + "/" + tcName + dt1 + ".html";
+		confilePropertiesFile = "./config/application.properties";
+		fwt=Reporter.create_html_report();
 		String browser = common_utilities.get_property_value("./config/application.properties", "browser");
 		if(browser.equalsIgnoreCase("chrome")) {
 			System.setProperty("webdriver.chrome.driver", "./server/chromedriver.exe");
@@ -127,26 +162,26 @@ public class test_base {
 		};
 	}
 	
-	public static void captureScreenShot() {
-		LocalDateTime dtObj = LocalDateTime.now();
-		DateTimeFormatter dtFormat = DateTimeFormatter.ofPattern("ddMMyyyyHHmmss"); 
-		String currDate = dtObj.format(dtFormat);
+	public static String captureScreenShot() {
 		TakesScreenshot scrnShot = (TakesScreenshot) driver;
 		File scrShot= scrnShot.getScreenshotAs(OutputType.FILE);
-		File destFile = new File("./img/" + tcName + "_" + currDate + ".png");
+		String scrnFilename = screenShotFolder + "/" + tcName + "_" + scren_cnt  + ".png";
+		File destFile = new File(scrnFilename);
 		try {
 			FileUtils.copyFile(scrShot, destFile);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		scren_cnt = scren_cnt+1;
+		return destFile.getAbsolutePath();
 	}
 	
 	@AfterMethod
-	public void cleanup() {
+	public void cleanup() throws IOException {
+		fwt.close();
 		driver.quit();
-		//log.info("Cleanup Successful");
 	}
 
 	

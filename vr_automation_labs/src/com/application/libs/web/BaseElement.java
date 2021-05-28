@@ -1,4 +1,4 @@
-package com.application.web.libs;
+package com.application.libs.web;
 
 import org.openqa.selenium.WebElement;
 

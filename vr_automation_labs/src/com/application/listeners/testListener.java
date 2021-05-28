@@ -1,4 +1,4 @@
-package com.application.common.listeners;
+package com.application.listeners;
 
 import org.testng.ITestContext;
 import org.testng.ITestListener;

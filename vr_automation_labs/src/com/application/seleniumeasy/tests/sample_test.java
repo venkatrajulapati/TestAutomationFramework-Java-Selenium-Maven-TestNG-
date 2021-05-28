@@ -7,9 +7,9 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.application.common.libs.*;
+import com.application.libs.common.*;
+import com.application.libs.web.test_base;
 import com.application.seleniumeasy.pages.home_page;
-import com.application.web.libs.test_base;
 
 
 public class sample_test extends test_base {
@@ -34,12 +34,7 @@ public class sample_test extends test_base {
 		boolean result = home_page.verify_selenium_easy_welcome_page();
 		assertEquals(result, true);
 		home_page.selectMenu(menuName);
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		
 		
 		

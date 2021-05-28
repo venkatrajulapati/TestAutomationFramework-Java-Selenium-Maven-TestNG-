@@ -1,15 +1,13 @@
 package com.application.seleniumeasy.pages;
 
 import java.io.IOException;
-
-import org.testng.ITestContext;
-
-import com.application.common.libs.*;
-import com.application.web.libs.VRWebElement;
-import com.application.web.libs.ui_utils;
+import com.application.libs.common.Reporter;
+import com.application.libs.common.common_utilities;
+import com.application.libs.web.VRWebElement;
+import com.application.libs.web.ui_utils;
 
 public class home_page extends VRWebElement{
-
+	
 	public VRWebElement get_Welcome_message() {
 		return new VRWebElement("xpath=//h3[contains(text(),'Welcome to Selenium Easy')]");
 	}
@@ -27,31 +25,34 @@ public class home_page extends VRWebElement{
 		String env = common_utilities.get_property_value("./config/application.properties", "environment");
 		String url = common_utilities.get_property_value("./resources/" + env + "/env.properties", "url");
 		driver.get(url);
-		captureScreenShot();
+		//captureScreenShot();
+		Reporter.update_Report_step(fwt, "Open Seleniumeasy Website", "Application should launch successfully.", "Application Launched Successfully.", "PASS");
 		log.info("Application Launched Successfully.");
 	}
 	
-	public boolean verify_selenium_easy_welcome_page() {
+	public boolean verify_selenium_easy_welcome_page() throws IOException {
 		boolean result = false;
 		if(get_Welcome_message().verifyPresent()){
+			Reporter.update_Report_step(fwt, "Verify Seleniumeasy website Loaded", "Website should Loaded Successfully.", "Website Loaded Successfully", "PASS");
 			log.info("Selenium easy Welcome page is loaded successfully.");
 			result=true;
 		}else {
 			log.error("failed to load Selenium easy page");
 		}
-		captureScreenShot();
+		//captureScreenShot();
 		return result;
 	}
 	
-	public void selectMenu(String menuName) {
+	public void selectMenu(String menuName) throws IOException {
 		ui_utils.click_element(get_menu_item_link(menuName), menuName);
-		captureScreenShot();
+		
 	}
 	
-	public void clickNoThanks() {
+	public void clickNoThanks() throws IOException {
+		
 		if(get_Nothanks_button().verifyPresent()) {
 			ui_utils.click_element(get_Nothanks_button(), "No Thanks");
-			captureScreenShot();
+			
 		}
 		
 	}

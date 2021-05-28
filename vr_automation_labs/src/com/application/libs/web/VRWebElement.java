@@ -1,5 +1,6 @@
-package com.application.web.libs;
+package com.application.libs.web;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -14,9 +15,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
+import com.application.libs.common.Reporter;
+
 public class VRWebElement extends test_base implements BaseElement {
 	
 	public WebElement elem;
+	public boolean result=false;
 	
 	public VRWebElement() {
 		// TODO Auto-generated constructor stub
@@ -28,9 +32,19 @@ public class VRWebElement extends test_base implements BaseElement {
 		if(elem_desc.startsWith("xpath=")) {
 			try {
 				elem = driver.findElement(By.xpath(elem_desc.split("xpath=")[1]));
+				result=true;
 				
 			}catch (NoSuchElementException e) {
-				// TODO: handle exception
+				// TODO: handle exception\
+				try {
+					Reporter.update_Report_step(fwt, "Locate the element", elem_desc + " should be located", "Failed to Locate element : " + elem_desc, "FAIL");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				result=false;
+				e.printStackTrace();	
+				
 				log.error("failed to Locate Element : " + elem_desc.split("xpath=")[1]);
 			}
 			
@@ -48,6 +62,7 @@ public class VRWebElement extends test_base implements BaseElement {
 	@Override
 	public void click() {
 		// TODO Auto-generated method stub
+		
 		elem.click();
 		
 	}
@@ -151,13 +166,29 @@ public class VRWebElement extends test_base implements BaseElement {
 	@Override
 	public boolean verifyPresent() {
 		// TODO Auto-generated method stub
-		boolean result=false;
-		if(elem.isDisplayed()) {
-			result=true;
-			
-		}
-		return result;
+		boolean res=false;
+		//if(result) {
+			if(elem.isDisplayed()) {
+				res=true;
+				
+			}
+		//}
+		
+		return res;
 	}
+	
+	/*public boolean failIfNotPresent() {
+		// TODO Auto-generated method stub
+		boolean res=false;
+		if(result) {
+			if(elem.isDisplayed()) {
+				res=true;
+				
+			}
+		}
+		assertEquals(res, true);
+		return res;
+	}*/
 
 	@Override
 	public void mouseHover() {

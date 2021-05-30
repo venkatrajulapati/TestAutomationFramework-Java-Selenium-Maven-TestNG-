@@ -23,7 +23,7 @@ public class ExtentReporterNG implements IReporter {
 	private ExtentReports extent;
 
 	public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites,String outputDirectory) {
-		extent = new ExtentReports("./results/reports/" + File.separator + "Resultdashboard.html", true);
+		extent = new ExtentReports("./results/" + File.separator + "dashboard.html", true);
 
 		for (ISuite suite : suites) {
 			Map<String, ISuiteResult> result = suite.getResults();

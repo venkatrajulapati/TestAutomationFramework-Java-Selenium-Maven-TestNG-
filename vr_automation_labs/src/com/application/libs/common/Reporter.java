@@ -9,7 +9,24 @@ import com.application.libs.web.test_base;
 
 public class Reporter extends test_base {
 	
-	public static FileWriter create_html_report() throws IOException {
+	
+	
+	
+	public static FileWriter create_html_report(String testcasename) throws IOException {
+		
+		//scren_cnt=1;
+		LocalDateTime dts = dateUtils.getDate(0);
+		String dt1 = dateUtils.getFormattedDate(dts, "ddMMyyyyHHmmss");//dt.format(formatter);
+		File f = new File(repFolder);
+		if(!f.exists()) {
+			f.mkdir();
+		}
+		//f.mkdir();
+		File f1 = new File(screenShotFolder);
+		if(!f1.exists()) {
+			f1.mkdir();
+		}
+		String reportFilePath = repFolder + "/" + testcasename + "_" +  dt1 + ".html";
 		
 		File resfile = new File(reportFilePath);
 		FileWriter report = new FileWriter(resfile);

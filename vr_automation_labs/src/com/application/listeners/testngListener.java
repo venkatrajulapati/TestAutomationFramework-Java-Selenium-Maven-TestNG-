@@ -1,10 +1,10 @@
 package com.application.listeners;
-
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+import com.application.libs.web.test_base;
 
-public class testListener implements ITestListener {
+public class testngListener extends test_base implements ITestListener {
 
 	@Override
 	public void onTestStart(ITestResult result) {
@@ -45,14 +45,21 @@ public class testListener implements ITestListener {
 	@Override
 	public void onStart(ITestContext context) {
 		// TODO Auto-generated method stub
-		ITestListener.super.onStart(context);
+		/*LocalDateTime dt = dateUtils.getDate(0);//LocalDateTime.now();
+		String todaysDt1 = dateUtils.getFormattedDate(dt, "dd-MM-yyyy-HHmmss");//dt.format(formatter);
+		String todaysDt2 = dateUtils.getFormattedDate(dt, "dd-MM-yyyy");//dt.format(formatter1);
+		screenShotFolder = "./results/screenshots/" + todaysDt1;
+		repFolder = "./results/reports/" + todaysDt2;
+		confilePropertiesFile = "./config/application.properties";*/
+		
+		//ITestListener.super.onStart(context);
 	}
 
 	@Override
 	public void onFinish(ITestContext context) {
 		// TODO Auto-generated method stub
+		
 		ITestListener.super.onFinish(context);
 	}
-	
 
 }

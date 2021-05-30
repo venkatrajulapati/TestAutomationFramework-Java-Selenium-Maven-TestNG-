@@ -1,6 +1,7 @@
 package com.application.seleniumeasy.pages;
 
 import java.io.IOException;
+
 import com.application.libs.common.Reporter;
 import com.application.libs.common.common_utilities;
 import com.application.libs.web.VRWebElement;
@@ -28,6 +29,7 @@ public class home_page extends VRWebElement{
 		//captureScreenShot();
 		Reporter.update_Report_step(fwt, "Open Seleniumeasy Website", "Application should launch successfully.", "Application Launched Successfully.", "PASS");
 		log.info("Application Launched Successfully.");
+		//eTest.log(LogStatus.PASS, "Application Launched Successfully.");
 	}
 	
 	public boolean verify_selenium_easy_welcome_page() throws IOException {
@@ -35,9 +37,11 @@ public class home_page extends VRWebElement{
 		if(get_Welcome_message().verifyPresent()){
 			Reporter.update_Report_step(fwt, "Verify Seleniumeasy website Loaded", "Website should Loaded Successfully.", "Website Loaded Successfully", "PASS");
 			log.info("Selenium easy Welcome page is loaded successfully.");
+			//eTest.log(LogStatus.PASS, "Selenium easy Welcome page is loaded successfully.");
 			result=true;
 		}else {
 			log.error("failed to load Selenium easy page");
+			//eTest.log(LogStatus.FAIL, "failed to load Selenium easy page");
 		}
 		//captureScreenShot();
 		return result;

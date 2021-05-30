@@ -1,11 +1,10 @@
-package com.application.libs.web;
+ package com.application.libs.web;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,62 +24,38 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import com.application.libs.common.Excelutils;
-import com.application.libs.common.Reporter;
 import com.application.libs.common.common_utilities;
-import com.application.libs.common.dateUtils;
 
 public class test_base {
 	
 	public static WebDriver driver;
-	public  static String workbookPath="";
-	public  static String datasheetName="";
-	public  static String keyName="";
+	public  String workbookPath="";
+	public  String datasheetName="";
+	public  String keyName="";
 	public static Logger log;
 	public static String tcName;
 	public static String repFolder="";
 	public static String screenShotFolder="";
-	public static String reportFilePath= "";
 	public static String confilePropertiesFile="";
-	public static String todaysDt1="";
-	public static String todaysDt2="";
 	public static FileWriter fwt;
 	public static int scren_cnt=1;
-	
-	@BeforeClass
-	public void initiallizeGlobalVariables() {
-		LocalDateTime dt = dateUtils.getDate(0);//LocalDateTime.now();
-		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy-HHmmss");
-		//DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-		todaysDt1 = dateUtils.getFormattedDate(dt, "dd-MM-yyyy-HHmmss");//dt.format(formatter);
-		todaysDt2 = dateUtils.getFormattedDate(dt, "dd-MM-yyyy");//dt.format(formatter1);
-		screenShotFolder = "./results/screenshots/" + todaysDt1;
-		repFolder = "./results/reports/" + todaysDt2;
-	}
+	//public static ExtentReports extentReporter;
+	//public static ExtentTest eTest;
+		
+
 	@BeforeMethod
-	public void intitializeConfiguration(Method m) throws IOException {
-		log = Logger.getLogger(m.getName());
-		log.info("Initializing Configuration ..........");
-		tcName = m.getName();
-		LocalDateTime dt = dateUtils.getDate(0);
-		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyyHHmmss");
-		String dt1 = dateUtils.getFormattedDate(dt, "ddMMyyyyHHmmss");//dt.format(formatter);
-		File f = new File(repFolder);
-		if(!f.exists()) {
-			f.mkdir();
+	public static WebDriver getDriver(Method m) {
+		
+		String browser="";
+		try {
+			browser = common_utilities.get_property_value("./config/application.properties", "browser");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		//f.mkdir();
-		File f1 = new File(screenShotFolder);
-		if(!f1.exists()) {
-			f1.mkdir();
-		}
-		reportFilePath = repFolder + "/" + tcName + dt1 + ".html";
-		confilePropertiesFile = "./config/application.properties";
-		fwt=Reporter.create_html_report();
-		String browser = common_utilities.get_property_value("./config/application.properties", "browser");
 		if(browser.equalsIgnoreCase("chrome")) {
 			System.setProperty("webdriver.chrome.driver", "./server/chromedriver.exe");
 			ChromeOptions options = new ChromeOptions();
@@ -90,17 +65,17 @@ public class test_base {
 			options.addArguments("--ignore-urlfetcher-cert-requests");
 			options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
 			options.setExperimentalOption("useAutomationExtension", false);
-			
 			driver = new ChromeDriver(options);
 		}
 		//driver.manage().window().maximize();
 		driver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		
+		System.out.println("end configuration");
+		return driver;
 	}
 	
 	@DataProvider(name = "ReadTestdata")
-	public static Iterator<Object[]> readTestdata(Method m) throws IOException {
+	public Iterator<Object[]> readTestdata(Method m) throws IOException {
 		//Start key
 		int reqRownum=Excelutils.getRowNumberByKeyName(workbookPath, datasheetName, keyName);
 		//End Key
@@ -152,16 +127,6 @@ public class test_base {
 		}
 		return dp.iterator();
 	}
-	
-	@DataProvider(name="testdata")
-	public static Object[][] readData(){
-		
-		return new Object[][] {
-			{"venkata.rajulapati@gmail.com","dfdfdf"},
-			{"sdsfsfsf","ddfdf"}
-		};
-	}
-	
 	public static String captureScreenShot() {
 		TakesScreenshot scrnShot = (TakesScreenshot) driver;
 		File scrShot= scrnShot.getScreenshotAs(OutputType.FILE);
@@ -178,9 +143,18 @@ public class test_base {
 		return destFile.getAbsolutePath();
 	}
 	
+	/*public static void createExtentReport() {
+		extentReporter = new ExtentReports("./results/extent.html", true);
+		eTest = extentReporter.startTest(tcName);
+		
+	}*/
+	
 	@AfterMethod
 	public void cleanup() throws IOException {
 		fwt.close();
+		//log.shutdown();
+		/*extentReporter.endTest(eTest);
+		extentReporter.flush();*/
 		driver.quit();
 	}
 

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -24,17 +25,20 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import com.application.libs.common.Excelutils;
+import com.application.libs.common.Reporter;
 import com.application.libs.common.common_utilities;
+import com.application.libs.common.dateUtils;
 
 public class test_base {
 	
 	public static WebDriver driver;
-	public  String workbookPath="";
-	public  String datasheetName="";
-	public  String keyName="";
+	public String workbookPath="";
+	public String datasheetName="";
+	public String keyName="";
 	public static Logger log;
 	public static String tcName;
 	public static String repFolder="";
@@ -44,12 +48,12 @@ public class test_base {
 	public static int scren_cnt=1;
 	//public static ExtentReports extentReporter;
 	//public static ExtentTest eTest;
-		
-
+	
 	@BeforeMethod
 	public static WebDriver getDriver(Method m) {
-		
+		log.info("Initiate Webdriver .......");
 		String browser="";
+		
 		try {
 			browser = common_utilities.get_property_value("./config/application.properties", "browser");
 		} catch (IOException e) {
@@ -148,6 +152,20 @@ public class test_base {
 		eTest = extentReporter.startTest(tcName);
 		
 	}*/
+	
+	public void initVariables(String tdSheetName,String datakeyName) throws IOException {
+		log = Logger.getLogger(datakeyName);
+		log.info("Initializing Global Variables ........");
+		workbookPath = "./resources/" + common_utilities.get_property_value("./config/application.properties", "environment") + "/Testdata/testdata.xls";
+		datasheetName = tdSheetName;
+		keyName = datakeyName;
+		LocalDateTime dt = dateUtils.getDate(0);//LocalDateTime.now();
+		String todaysDt1 = dateUtils.getFormattedDate(dt, "dd-MM-yyyy-HHmmss");//dt.format(formatter);
+		String todaysDt2 = dateUtils.getFormattedDate(dt, "dd-MM-yyyy");//dt.format(formatter1);
+		screenShotFolder = "./results/screenshots/" + todaysDt1;
+		repFolder = "./results/reports/" + todaysDt2;
+		confilePropertiesFile = "./config/application.properties";
+	}
 	
 	@AfterMethod
 	public void cleanup() throws IOException {

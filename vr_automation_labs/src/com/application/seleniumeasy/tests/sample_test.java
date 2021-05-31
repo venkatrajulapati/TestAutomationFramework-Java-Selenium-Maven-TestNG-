@@ -3,11 +3,11 @@ package com.application.seleniumeasy.tests;
 import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Map;
-import org.apache.log4j.Logger;
+
 import org.testng.annotations.Test;
-import com.application.libs.common.*;
+
+import com.application.libs.common.Reporter;
 import com.application.libs.web.test_base;
 import com.application.seleniumeasy.pages.home_page;
 
@@ -15,23 +15,13 @@ import com.application.seleniumeasy.pages.home_page;
 public class sample_test extends test_base {
 	
 	public sample_test() throws IOException {
-		// TODO Auto-generated constructor stub
-		workbookPath = "./resources/" + common_utilities.get_property_value("./config/application.properties", "environment") + "/Testdata/testdata.xls";
-		datasheetName = "sample";
-		keyName = "sampletest";
-		log = Logger.getLogger(keyName);
-		LocalDateTime dt = dateUtils.getDate(0);//LocalDateTime.now();
-		String todaysDt1 = dateUtils.getFormattedDate(dt, "dd-MM-yyyy-HHmmss");//dt.format(formatter);
-		String todaysDt2 = dateUtils.getFormattedDate(dt, "dd-MM-yyyy");//dt.format(formatter1);
-		screenShotFolder = "./results/screenshots/" + todaysDt1;
-		repFolder = "./results/reports/" + todaysDt2;
-		confilePropertiesFile = "./config/application.properties";
-		
+		initVariables("sample", this.getClass().getSimpleName());
 	}
 	
 	@Test(dataProvider = "ReadTestdata")
 	public void sampletest(Map<String,String> data) throws IOException {
-		tcName=sample_test.class.getSimpleName();
+		//Initiate Report
+		tcName=this.getClass().getSimpleName();
 		fwt=Reporter.create_html_report(tcName);
 		//Test data
 		String menuName = data.get("MenuName");
@@ -44,10 +34,5 @@ public class sample_test extends test_base {
 		boolean result = home_page.verify_selenium_easy_welcome_page();
 		assertEquals(result, true);
 		home_page.selectMenu(menuName);
-		
-		
-		
-		
-		
 	}
 }

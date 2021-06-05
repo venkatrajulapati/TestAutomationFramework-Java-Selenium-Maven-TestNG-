@@ -9,9 +9,6 @@ import com.application.libs.web.test_base;
 
 public class Reporter extends test_base {
 	
-	
-	
-	
 	public static FileWriter create_html_report(String testcasename) throws IOException {
 		
 		//scren_cnt=1;

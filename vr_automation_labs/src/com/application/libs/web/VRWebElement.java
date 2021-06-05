@@ -43,7 +43,8 @@ public class VRWebElement extends test_base implements BaseElement {
 					e1.printStackTrace();
 				}
 				result=false;
-				e.printStackTrace();	
+				
+				log.error(e.getMessage());
 				
 				log.error("failed to Locate Element : " + elem_desc.split("xpath=")[1]);
 			}

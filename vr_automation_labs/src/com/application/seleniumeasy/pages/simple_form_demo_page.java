@@ -2,11 +2,8 @@ package com.application.seleniumeasy.pages;
 
 import java.io.IOException;
 
-import org.testng.Assert;
-
 import com.application.libs.common.Reporter;
 import com.application.libs.common.StringUtils;
-import com.application.libs.common.common_utilities;
 import com.application.libs.web.VRWebElement;
 import com.application.libs.web.ui_utils;
 

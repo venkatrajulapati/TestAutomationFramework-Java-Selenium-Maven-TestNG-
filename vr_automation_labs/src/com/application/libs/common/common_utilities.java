@@ -15,4 +15,6 @@ public class common_utilities {
 		return prop.getProperty(propery_name).toString();
 	}
 	
+	
+	
 }

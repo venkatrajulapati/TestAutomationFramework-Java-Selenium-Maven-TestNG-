@@ -1,10 +1,6 @@
 package com.application.seleniumeasy.pages;
 
 import java.io.IOException;
-import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import com.application.libs.common.Reporter;
 import com.application.libs.common.common_utilities;

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Suite">
+<suite name="TestSuite">
 
  	<listeners>
 		<listener class-name="com.application.listeners.ExtentReporterNG"/>
+		<listener class-name="com.application.listeners.testngListener"/>
 		
 	</listeners>
-  <test thread-count="5" name="Test">
+  <test thread-count="5" name="InputForms">
+  
+  	<packages>
+  		<package name="com.application.seleniumeasy.tests.inputforms"/>
+  	</packages>
   	
-    <classes>
-      <class name="com.application.seleniumeasy.tests.get_total_test"/>
-      <class name="com.application.seleniumeasy.tests.display_messate_test"/>
-    </classes>
+    
   </test> <!-- Test -->
 </suite> <!-- Suite -->

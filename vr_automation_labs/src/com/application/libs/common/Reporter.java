@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 import com.application.libs.web.test_base;
 
 public class Reporter extends test_base {
@@ -30,9 +31,9 @@ public class Reporter extends test_base {
 		
 		//Write header
 		report.append("<HTML><BODY><TABLE BORDER=1 CELLPADDING=3 CELLSPACING=1 WIDTH=100%>");
-		String Test_Automation_Test_Report_Logo = "E:\\actitimeAutomation\\Logo.png";
+		String Test_Automation_Test_Report_Logo = System.getProperty("user.dir") + "\\logo\\logo.png";
 		LocalDateTime dttime = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyyHHmmss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy-HHmmss");
 		String dtString = dttime.format(formatter);
 		//Write Report - Header
 		report.append("<HTML><BODY><TABLE BORDER=1 CELLPADDING=3 CELLSPACING=1 WIDTH=100%>");
@@ -128,5 +129,7 @@ public class Reporter extends test_base {
     
 		
 	}
+	
+	
 
 }

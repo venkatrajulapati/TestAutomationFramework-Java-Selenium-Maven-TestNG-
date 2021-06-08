@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -25,13 +26,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
+
 import com.application.libs.common.Excelutils;
-import com.application.libs.common.Reporter;
 import com.application.libs.common.common_utilities;
 import com.application.libs.common.dateUtils;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class test_base {
 	
@@ -46,6 +48,7 @@ public class test_base {
 	public static String confilePropertiesFile="";
 	public static FileWriter fwt;
 	public static int scren_cnt=1;
+	
 	//public static ExtentReports extentReporter;
 	//public static ExtentTest eTest;
 	
@@ -61,14 +64,15 @@ public class test_base {
 			e.printStackTrace();
 		}
 		if(browser.equalsIgnoreCase("chrome")) {
-			System.setProperty("webdriver.chrome.driver", "./server/chromedriver.exe");
+			//System.setProperty("webdriver.chrome.driver", "./server/chromedriver.exe");
+			WebDriverManager.chromedriver().setup();
 			ChromeOptions options = new ChromeOptions();
 			options.addArguments("--start-maximized");
 			options.addArguments("--disable-web-security");
 			options.addArguments("--allow-insecure-localhost");
 			options.addArguments("--ignore-urlfetcher-cert-requests");
 			options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-			options.setExperimentalOption("useAutomationExtension", false);
+			//options.setExperimentalOption("useAutomationExtension", false);
 			driver = new ChromeDriver(options);
 		}
 		//driver.manage().window().maximize();
@@ -161,11 +165,41 @@ public class test_base {
 		keyName = datakeyName;
 		LocalDateTime dt = dateUtils.getDate(0);//LocalDateTime.now();
 		String todaysDt1 = dateUtils.getFormattedDate(dt, "dd-MM-yyyy-HHmmss");//dt.format(formatter);
-		String todaysDt2 = dateUtils.getFormattedDate(dt, "dd-MM-yyyy");//dt.format(formatter1);
+		//String todaysDt2 = dateUtils.getFormattedDate(dt, "dd-MM-yyyy");//dt.format(formatter1);
 		screenShotFolder = "./results/screenshots/" + todaysDt1;
-		repFolder = "./results/reports/" + todaysDt2;
+		repFolder = "./results/reports/" + todaysDt1;
 		confilePropertiesFile = "./config/application.properties";
 	}
+	
+	/*//@AfterSuite
+	public static void merge_reports(ITestContext itc) throws IOException {
+		String [] arr = repFolder.split("/");
+		String resfolder = "./results/reports/" + arr[arr.length-1];
+		String mfpath = "./results/reports/" +  itc.getSuite().getName() + ".html"; 
+		File ofile = new File(mfpath);
+		int ch=0;
+		if(ofile.exists()) {
+			ofile.delete();
+		}
+		//PrintWriter pw = new PrintWriter(new File(mfpath));
+		FileWriter fr = new FileWriter(ofile);
+		//BufferedWriter bw = new BufferedWriter(fr);
+		File f1 = new File(resfolder);
+		String [] files=null;
+		if(f1.isDirectory()) {
+			files = f1.list();
+			for(String f:files) {
+				File fi = new File(resfolder + "/" + f);
+				FileReader br = new FileReader(fi.getAbsolutePath());
+				while((ch= br.read())!= -1 ) {
+					fr.append((char)ch);
+				}
+				fr.flush();
+				br.close();
+			}
+		}
+		fr.close();
+	}*/
 	
 	@AfterMethod
 	public void cleanup() throws IOException {
